@@ -4,10 +4,10 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 
 //Require the classes I've created
-const Employee = require("./employee.js");
-const Manager = require("./manager.js");
-const Intern = require("./intern.js");
-const Engineer = require("./engineer.js");
+const Employee = require("./lib/employee.js");
+const Manager = require("./lib/manager.js");
+const Intern = require("./lib/intern.js");
+const Engineer = require("./lib/engineer.js");
 
 //Array of questions for the user
 const questions = [
@@ -234,7 +234,7 @@ function writeToHtml(response) {
     </html>`;
 
   fs.writeFile(
-    `${response.companyName.split(" ").join("")}.html`,
+    `dist/${response.companyName.split(" ").join("")}.html`,
     htmlFile,
     function (err) {
       //if there is an error then console log the error otherwise console log "Success!"
