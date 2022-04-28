@@ -109,37 +109,98 @@ function createNewEmployee(response) {
   }
 }
 
-console.log(internArray);
+function createManagerCard(managerArray) {
+  const managerTemplateLits = managerArray
+    .map((element) => {
+      return `
+                <div class="card" id="card-1" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">${element.name}</h5>
+                        <p class="card-text">
+                        <i style="font-size:24px" class="fa">&#xf0f4;</i>
+                        Manager
+                        </p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            ID: ${element.id}
+                        </li>
+                        <li class="list-group-item">
+                            Email: 
+                            <a href="${element.email}" class="">${element.email}</a>
+                        </li>
+                        <li class="list-group-item">
+                        Office Number: ${element.officeNumber}
+                        </li>
+                    </ul>
+                </div>`;
+    })
+    .join("");
+
+  return managerTemplateLits;
+}
+
+function createEngineerCard(engineerArray) {
+  const engineerTemplateLits = engineerArray
+    .map((element) => {
+      return `
+              <div class="card" id="card-1" style="width: 18rem;">
+                  <div class="card-body">
+                      <h5 class="card-title">${element.name}</h5>
+                      <p class="card-text">
+                      <i style="font-size:24px" class="fa">&#xf530;</i>
+                      Engineer
+                      </p>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                          ID: ${element.id}
+                      </li>
+                      <li class="list-group-item">
+                          Email: 
+                          <a href="${element.email}" class="">${element.email}</a>
+                      </li>
+                      <li class="list-group-item">
+                      Github: 
+                      <a href="${element.githubLink}" class="">${element.githubUsername}</a>
+                  </li>
+                  </ul>
+              </div>`;
+    })
+    .join("");
+
+  return engineerTemplateLits;
+}
 
 function createInternCard(internArray) {
-  for (var i = 0; i < internArray.length; i++) {
-    let internCard = `
-            <div class="card" id="card-${i + 1}" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">${internArray[i].name}</h5>
-                    <p class="card-text">
-                    <i style="font-size:24px" class="fa">&#xf19d;</i>
-                    Intern
-                    </p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        ID: ${internArray[i].id}
-                    </li>
-                    <li class="list-group-item">
-                        Email: 
-                        <a href="${internArray[i].email}" class="">${
-      internArray[i].email
-    }</a>
-                    </li>
-                    <li class="list-group-item">
-                        School: ${internArray[i].school}
-                    </li>
-                 </ul>
-            </div>`;
+  const internTemplateLits = internArray
+    .map((element) => {
+      return `
+              <div class="card" id="card-1" style="width: 18rem;">
+                  <div class="card-body">
+                      <h5 class="card-title">${element.name}</h5>
+                      <p class="card-text">
+                      <i style="font-size:24px" class="fa">&#xf19d;</i>
+                      Intern
+                      </p>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                          ID: ${element.id}
+                      </li>
+                      <li class="list-group-item">
+                          Email: 
+                          <a href="${element.email}" class="">${element.email}</a>
+                      </li>
+                      <li class="list-group-item">
+                          School: ${element.school}
+                      </li>
+                  </ul>
+              </div>`;
+    })
+    .join("");
 
-    return internCard;
-  }
+  return internTemplateLits;
 }
 
 //functions to return different cards for the manager, intern, and engineer then those can be called in the writeToHtml function
@@ -170,7 +231,9 @@ function writeToHtml(response) {
             </header>
             <div class="card-container">
                 <section class="card-section">
-                        ${createInternCard(internArray)}
+                    ${createManagerCard(managerArray)}
+                    ${createEngineerCard(engineerArray)}
+                    ${createInternCard(internArray)}
                 </section>
             </div>
         </body>
