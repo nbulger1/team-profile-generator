@@ -88,6 +88,7 @@ function createNewEmployee(response) {
       response.school
     );
     internArray.push(intern);
+    console.log(internArray);
   } else if (response.employeeType == "engineer") {
     const engineer = new Engineer(
       response.name,
@@ -112,10 +113,10 @@ console.log(internArray);
 
 function createInternCard(internArray) {
   for (var i = 0; i < internArray.length; i++) {
-    const internCard = `
-            <div class="card" id="card-${i}" style="width: 18rem;">
+    let internCard = `
+            <div class="card" id="card-${i + 1}" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title">${this.name}</h5>
+                    <h5 class="card-title">${internArray[i].name}</h5>
                     <p class="card-text">
                     <i style="font-size:24px" class="fa">&#xf19d;</i>
                     Intern
@@ -123,17 +124,21 @@ function createInternCard(internArray) {
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        ID: ${this.id}
+                        ID: ${internArray[i].id}
                     </li>
                     <li class="list-group-item">
                         Email: 
-                        <a href="${this.email}" class="">${this.email}</a>
+                        <a href="${internArray[i].email}" class="">${
+      internArray[i].email
+    }</a>
                     </li>
                     <li class="list-group-item">
-                        School: ${this.school}
+                        School: ${internArray[i].school}
                     </li>
                  </ul>
             </div>`;
+
+    return internCard;
   }
 }
 
@@ -165,29 +170,7 @@ function writeToHtml(response) {
             </header>
             <div class="card-container">
                 <section class="card-section">
-                    <div class="card" id="card-1" style="width: 18rem;">
-                        <div class="card-body">
-                          <h5 class="card-title">${response.employeeName}</h5>
-                          <p class="card-text">
-                            <i style="font-size:24px" class="fa">&#xf530;</i>
-                            <!--Glasses = &#xf530, Grad Cap = f19d, coffee = f0f4-->
-                            ${response.employeeType}  
-                          </p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                          <li class="list-group-item">
-                            ID: ${response.id}
-                          </li>
-                          <li class="list-group-item">
-                              Email: 
-                            <a href="${response.email}" class="">${response.email}</a>
-                          </li>
-                          <li class="list-group-item">
-                              Github: 
-                            <a href="${response.githubLink}" class="">${response.githubUsername}</a>
-                          </li>
-                        </ul>
-                    </div>
+                        ${createInternCard(internArray)}
                 </section>
             </div>
         </body>
@@ -201,13 +184,15 @@ function writeToHtml(response) {
       err ? console.log(err) : console.log("Success!");
     }
   );
+
+  //fs.appendFile???
 }
 
 // Function to initialize app that uses inquirer to prompt the question array and then use the response object to run the writeToFile function
 function init() {
   return inquirer.prompt(questions).then((response) => {
+    createNewEmployee(response);
     if (response.anotherEmployee) {
-      createNewEmployee(response);
       writeToHtml(response);
     } else {
       return init();
