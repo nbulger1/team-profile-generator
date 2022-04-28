@@ -18,12 +18,6 @@ const questions = [
   },
   {
     type: "input",
-    message:
-      "Which employee are you entering? (Please enter a numerical value i.e. '1' for the first employee)",
-    name: "employee",
-  },
-  {
-    type: "input",
     message: "What is the employee's name?",
     name: "name",
   },
@@ -74,11 +68,12 @@ const questions = [
   },
 ];
 
-//array of people???
+//Make arrays to hold each type of employee
 let internArray = [];
 let managerArray = [];
 let engineerArray = [];
 
+//function to create the employee based on the answers to the employee type question
 function createNewEmployee(response) {
   if (response.employeeType == "intern") {
     const intern = new Intern(
@@ -109,11 +104,12 @@ function createNewEmployee(response) {
   }
 }
 
+//Three functions to create the template literal of HTML for the type of employee
 function createManagerCard(managerArray) {
   const managerTemplateLits = managerArray
     .map((element) => {
       return `
-                <div class="card" id="card-1" style="width: 18rem;">
+                <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">${element.name}</h5>
                         <p class="card-text">
@@ -127,7 +123,7 @@ function createManagerCard(managerArray) {
                         </li>
                         <li class="list-group-item">
                             Email: 
-                            <a href="${element.email}" class="">${element.email}</a>
+                            <a href="mailto:${element.email}" target="_blank">${element.email}</a>
                         </li>
                         <li class="list-group-item">
                         Office Number: ${element.officeNumber}
@@ -144,7 +140,7 @@ function createEngineerCard(engineerArray) {
   const engineerTemplateLits = engineerArray
     .map((element) => {
       return `
-              <div class="card" id="card-1" style="width: 18rem;">
+              <div class="card" style="width: 18rem;">
                   <div class="card-body">
                       <h5 class="card-title">${element.name}</h5>
                       <p class="card-text">
@@ -158,11 +154,11 @@ function createEngineerCard(engineerArray) {
                       </li>
                       <li class="list-group-item">
                           Email: 
-                          <a href="${element.email}" class="">${element.email}</a>
+                          <a href="mailto:${element.email}" target="_blank" class="">${element.email}</a>
                       </li>
                       <li class="list-group-item">
                       Github: 
-                      <a href="${element.githubLink}" class="">${element.githubUsername}</a>
+                      <a href="${element.githubLink}" target = "_blank">${element.githubUsername}</a>
                   </li>
                   </ul>
               </div>`;
@@ -176,7 +172,7 @@ function createInternCard(internArray) {
   const internTemplateLits = internArray
     .map((element) => {
       return `
-              <div class="card" id="card-1" style="width: 18rem;">
+              <div class="card" style="width: 18rem;">
                   <div class="card-body">
                       <h5 class="card-title">${element.name}</h5>
                       <p class="card-text">
@@ -190,7 +186,7 @@ function createInternCard(internArray) {
                       </li>
                       <li class="list-group-item">
                           Email: 
-                          <a href="${element.email}" class="">${element.email}</a>
+                          <a href="mailto:${element.email}" target="_blank">${element.email}</a>
                       </li>
                       <li class="list-group-item">
                           School: ${element.school}
@@ -227,14 +223,12 @@ function writeToHtml(response) {
 
         <body>
             <header class="header">
-                <h1>My Team</h1>
+                <h1>${response.companyName} Team</h1>
             </header>
             <div class="card-container">
-                <section class="card-section">
-                    ${createManagerCard(managerArray)}
-                    ${createEngineerCard(engineerArray)}
-                    ${createInternCard(internArray)}
-                </section>
+                ${createManagerCard(managerArray)}
+                ${createEngineerCard(engineerArray)}
+                ${createInternCard(internArray)}
             </div>
         </body>
     </html>`;
@@ -247,8 +241,6 @@ function writeToHtml(response) {
       err ? console.log(err) : console.log("Success!");
     }
   );
-
-  //fs.appendFile???
 }
 
 // Function to initialize app that uses inquirer to prompt the question array and then use the response object to run the writeToFile function
