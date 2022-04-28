@@ -68,10 +68,9 @@ const questions = [
     when: (response) => response.employeeType == "manager",
   },
   {
-    type: "rawlist",
-    message: "Would you like to enter another employee?",
+    type: "confirm",
+    message: "Are you done entering employees?",
     name: "anotherEmployee",
-    choices: ["Yes", "No"],
   },
 ];
 
@@ -111,9 +110,9 @@ function createNewEmployee(response) {
 
 console.log(internArray);
 
-function createInternCard(internArray){
-    for(var i=0; i<internArray.length; i++){
-        const internCard-i = `
+function createInternCard(internArray) {
+  for (var i = 0; i < internArray.length; i++) {
+    const internCard = `
             <div class="card" id="card-${i}" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">${this.name}</h5>
@@ -134,9 +133,9 @@ function createInternCard(internArray){
                         School: ${this.school}
                     </li>
                  </ul>
-            </div>`
-    }
-};
+            </div>`;
+  }
+}
 
 //functions to return different cards for the manager, intern, and engineer then those can be called in the writeToHtml function
 
@@ -206,9 +205,13 @@ function writeToHtml(response) {
 
 // Function to initialize app that uses inquirer to prompt the question array and then use the response object to run the writeToFile function
 function init() {
-  inquirer.prompt(questions).then((response) => {
-    createNewEmployee(response);
-    // writeToHtml(response);
+  return inquirer.prompt(questions).then((response) => {
+    if (response.anotherEmployee) {
+      createNewEmployee(response);
+      writeToHtml(response);
+    } else {
+      return init();
+    }
   });
 }
 
