@@ -31,5 +31,20 @@ describe("Engineer", () => {
 
       expect(result).toEqual(githubUrl);
     });
+
+    it("should return the role of the employee", () => {
+      const engineer = new Engineer(
+        "Natalie",
+        "27843",
+        "natalie@bulger.org",
+        "nbulger1",
+        "https://github.com/nbulger1"
+      );
+      const role = "Engineer";
+
+      const result = engineer.getRole();
+
+      expect(result).toEqual(role);
+    });
   });
 });

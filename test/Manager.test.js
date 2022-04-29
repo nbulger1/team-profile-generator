@@ -15,5 +15,19 @@ describe("Manager", () => {
 
       expect(result).toEqual(officeNumber);
     });
+
+    it("should return the role of the employee", () => {
+      const manager = new Manager(
+        "Natalie",
+        "27843",
+        "natalie@bulger.org",
+        "1234"
+      );
+      const role = "Manager";
+
+      const result = manager.getRole();
+
+      expect(result).toEqual(role);
+    });
   });
 });

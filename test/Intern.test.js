@@ -10,5 +10,14 @@ describe("Intern", () => {
 
       expect(result).toEqual(school);
     });
+
+    it("should return the role of the employee", () => {
+      const intern = new Intern("Natalie", "27843", "natalie@bulger.org", "UW");
+      const role = "Intern";
+
+      const result = intern.getRole();
+
+      expect(result).toEqual(role);
+    });
   });
 });
