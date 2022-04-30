@@ -3,13 +3,13 @@ const inquirer = require("inquirer");
 //require filesystem (fs) so we can read, write, append files
 const fs = require("fs");
 
-//Require the classes I've created
+//Require the classes I've created for each type of employee
 const Employee = require("./lib/employee.js");
 const Manager = require("./lib/manager.js");
 const Intern = require("./lib/intern.js");
 const Engineer = require("./lib/engineer.js");
 
-//Array of questions for the user
+//Array of questions for the user with conditionals for those that only appear for certain employee types
 const questions = [
   {
     type: "input",
@@ -63,7 +63,7 @@ const questions = [
   },
   {
     type: "confirm",
-    message: "Are you done entering employees?",
+    message: "Would you like to add another employee?",
     name: "anotherEmployee",
   },
 ];
@@ -82,8 +82,8 @@ function createNewEmployee(response) {
       response.email,
       response.school
     );
+    //Once the employee is created then push them onto the appropriate employee array
     internArray.push(intern);
-    console.log(internArray);
   } else if (response.employeeType == "engineer") {
     const engineer = new Engineer(
       response.name,
@@ -106,6 +106,7 @@ function createNewEmployee(response) {
 
 //Three functions to create the template literal of HTML for the type of employee
 function createManagerCard(managerArray) {
+  //Each function makes a constant variable that is an string of each employee's HTML that needs to be appended to the HTML to create each card
   const managerTemplateLits = managerArray
     .map((element) => {
       return `
@@ -199,9 +200,7 @@ function createInternCard(internArray) {
   return internTemplateLits;
 }
 
-//functions to return different cards for the manager, intern, and engineer then those can be called in the writeToHtml function
-
-//function to write the HTML file
+//function to write the HTML file that provides all the necessary head information and then calls each of the functions for the managers, interns, and engineers to provide the HTML for the employee cards
 function writeToHtml(response) {
   const htmlFile = `
     <html lang="en-us"> 
@@ -233,6 +232,7 @@ function writeToHtml(response) {
         </body>
     </html>`;
 
+  //write an HTML file that is called "company name".html and populates in the dist folder using the htmlFile variable
   fs.writeFile(
     `dist/${response.companyName.split(" ").join("")}.html`,
     htmlFile,
@@ -243,11 +243,11 @@ function writeToHtml(response) {
   );
 }
 
-// Function to initialize app that uses inquirer to prompt the question array and then use the response object to run the writeToFile function
+// Function to initialize app that uses inquirer to prompt the question array and then use the response object to create a new employee from all the information provided by the user. If the user is done entering employees then run the writeToFile function other re-prompt the questions
 function init() {
   return inquirer.prompt(questions).then((response) => {
     createNewEmployee(response);
-    if (response.anotherEmployee) {
+    if (!response.anotherEmployee) {
       writeToHtml(response);
     } else {
       return init();
@@ -255,4 +255,5 @@ function init() {
   });
 }
 
+//initialize the app
 init();
