@@ -9,6 +9,7 @@ I was tasked to create a command-line application that takes information, provid
 - [User Story](#user-story)
 - [Acceptance Criteria](#acceptance-criteria)
 - [Node Package Manager](#node-package-manager)
+- [Prompt Questions](#prompt-questions)
 - [Classes](#classes)
 - [HTML](#html)
 - [Tests](#tests)
@@ -49,6 +50,10 @@ THEN I exit the application, and the HTML is generated
 ### Node Package Manager
 
 To start, I installed the necessary packages for this application from npm including "inquirer" for command-line prompting and "jest" for testing. These packages were then required in my index.js file at the top of the file.
+
+## Prompt Questions
+
+The questions used in the npm inquirer were put into a question array within the index.js file. The first question asks for an employee type to determine future questions, as some questions are only asked for certain employees. I also added in validation for the employee's email. For future development, I would like to validate more of the user inputs.
 
 ## Classes
 
