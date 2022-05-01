@@ -12,9 +12,10 @@ const Engineer = require("./lib/engineer.js");
 //Array of questions for the user with conditionals for those that only appear for certain employee types
 const questions = [
   {
-    type: "input",
-    message: "What is your company name?",
-    name: "companyName",
+    type: "rawlist",
+    message: "Is the employee a manager, intern, or engineer?",
+    name: "employeeType",
+    choices: ["manager", "engineer", "intern"],
   },
   {
     type: "input",
@@ -30,12 +31,6 @@ const questions = [
     type: "input",
     message: "What is the employee's email?",
     name: "email",
-  },
-  {
-    type: "rawlist",
-    message: "Is the employee a manager, intern, or engineer?",
-    name: "employeeType",
-    choices: ["manager", "engineer", "intern"],
   },
   {
     type: "input",
@@ -90,7 +85,7 @@ function createNewEmployee(response) {
       response.id,
       response.email,
       response.githubUsername,
-      response.githubLink
+      response.githubUrl
     );
     engineerArray.push(engineer);
   } else if (response.employeeType == "manager") {
@@ -159,7 +154,7 @@ function createEngineerCard(engineerArray) {
                       </li>
                       <li class="list-group-item">
                       Github: 
-                      <a href="${element.githubLink}" target = "_blank">${element.githubUsername}</a>
+                      <a href="${element.githubUrl}" target = "_blank">${element.githubUsername}</a>
                   </li>
                   </ul>
               </div>`;
@@ -222,7 +217,7 @@ function writeToHtml(response) {
 
         <body>
             <header class="header">
-                <h1>${response.companyName} Team</h1>
+                <h1>My Team</h1>
             </header>
             <div class="card-container">
                 ${createManagerCard(managerArray)}
@@ -233,14 +228,10 @@ function writeToHtml(response) {
     </html>`;
 
   //write an HTML file that is called "company name".html and populates in the dist folder using the htmlFile variable
-  fs.writeFile(
-    `dist/${response.companyName.split(" ").join("")}.html`,
-    htmlFile,
-    function (err) {
-      //if there is an error then console log the error otherwise console log "Success!"
-      err ? console.log(err) : console.log("Success!");
-    }
-  );
+  fs.writeFile(`dist/index.html`, htmlFile, function (err) {
+    //if there is an error then console log the error otherwise console log "Success!"
+    err ? console.log(err) : console.log("Success!");
+  });
 }
 
 // Function to initialize app that uses inquirer to prompt the question array and then use the response object to create a new employee from all the information provided by the user. If the user is done entering employees then run the writeToFile function other re-prompt the questions
