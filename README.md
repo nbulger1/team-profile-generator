@@ -47,7 +47,7 @@ WHEN I decide to finish building my team
 THEN I exit the application, and the HTML is generated
 ```
 
-### Node Package Manager
+## Node Package Manager
 
 To start, I installed the necessary packages for this application from npm including "inquirer" for command-line prompting and "jest" for testing. These packages were then required in my index.js file at the top of the file.
 
